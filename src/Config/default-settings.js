@@ -4,7 +4,7 @@ import stationSettings from './station-config'
 const defaultSettings = {
   mainSettings: {
     protocol: 'ws',
-    address: 'localhost',
+    address: '127.0.0.1',
     port: 5000,
     chargePointId: '00000001111',
     OCPPversion: 'ocpp1.6',

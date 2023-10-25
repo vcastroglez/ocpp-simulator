@@ -25,7 +25,7 @@ const logArray = []
 
 const Main = () => {
   const { settingsState, setSettingsState } = useContext(SettingsContext)
-  
+
   const [ ws, setWs ] = useState(socketInfo.webSocket || '')
   const [ logs, setLogs ] = useState(logArray)
   const [ status, setStatus ] = useState(socketInfo.lastStatus || pointStatus.disconnected)
@@ -42,7 +42,7 @@ const Main = () => {
     1: setConOne,
     2: setConTwo,
   }
-  
+
   const open = Boolean(helpAnchorEl);
 
   const logsEndRef = useRef(null)
@@ -90,7 +90,7 @@ const Main = () => {
 
   const incomingMessage = (id, message) => {
     const getCommand = (commands.filter(x => x.id === id))[0]
-
+    console.log(commands,getCommand);
     if (!getCommand) {
       updateLog( { time: getTime(), type: logTypes.error, message: 'Cannot recognize command!' })
       return
@@ -98,7 +98,7 @@ const Main = () => {
 
     const { command, connector } = getCommand
     updateLog({ time: getTime(), type: logTypes.message, command, message: JSON.stringify(message) })
-    
+
     if (command === 'BootNotification' && !initialBootNotification && message.status === 'Accepted') {
       // Send first heartbeat
       const result = sendCommand('Heartbeat', {})
@@ -248,7 +248,7 @@ const Main = () => {
         if (checkSetting.readonly) changeValueStatus = 'Rejected'
         if ((checkSetting.value === 'true' || checkSetting.value === 'false') && value !== 'true' && value !== 'false') changeValueStatus = 'Rejected'
         if (!isNaN(checkSetting.value) && isNaN(value)) changeValueStatus = 'Rejected'
-        
+
         ws.send(JSON.stringify([ 3, id, { status: changeValueStatus }]))
 
         const element = { ...checkSetting, value }
@@ -296,13 +296,15 @@ const Main = () => {
       clearInterval(meterValueInterval[2])
       setInitialBootNotification(false)
       setStatus(status)
-      setUploading(false)      
+      setUploading(false)
       clearInterval(uploadInterval)
       setWs('')
     }
 
     ws.onmessage = (msg) => {
       const [ type, id, message, payload ] = JSON.parse(msg.data)
+      console.log(type, id, message, payload);
+      console.log(msg);
       switch (type) {
         case 2:
           incomingRequest(id, message, payload)
@@ -363,7 +365,7 @@ const Main = () => {
             {
               logs.map((el, index) => (
                 <Stack key={index} direction="row" color={el.type.color} spacing={2} divider={<Divider orientation="vertical" flexItem />}>
-                  <Box>{el.time}</Box> 
+                  <Box>{el.time}</Box>
                   <Box width={55} minWidth={55}>{el.type.text}</Box>
                   <Box width={175} minWidth={175}>{el.command}</Box>
                   <Box>{el.message}</Box>
