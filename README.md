@@ -1,5 +1,7 @@
 # OCPP Charge point simulator
 
+This repository is based on [Lamerat/OCPP-Charge-Point-Simulator](https://github.com/Lamerat/OCPP-Charge-Point-Simulator), with additional changes for personal OCPP experiments.
+
 ## Simple charge point simulator, support OCPP JSON-1.6
 
 ### Implemented functions

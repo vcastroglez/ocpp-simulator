@@ -12,8 +12,7 @@ const ChargePoint = ({ ws, setWs, status, setStatus, centralSystemSend }) => {
 
   const startConnection = () => {
     const { protocol, address, port, chargePointId, OCPPversion } = settingsState.mainSettings
-    // setWs(new WebSocket(`${protocol}://${address}:${port}/${chargePointId}`, [ OCPPversion ]))
-    socketInfo.webSocket = new WebSocket(`${protocol}://127.0.0.1:${port}/${chargePointId}`, [ OCPPversion ])
+    socketInfo.webSocket = new WebSocket(`${protocol}://${address}:${port}/${chargePointId}`, [ OCPPversion ])
     setWs(socketInfo.webSocket)
     setStatus(pointStatus.connecting)
   }
